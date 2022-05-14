@@ -1,13 +1,32 @@
-import Button from "./Button"; //1 컴포넌트당 1개의 js 파일을 가질 수 있다 => 모듈화
-import styles from "./App.module.css"; //css의 모듈화 + css 코드를 js 객체로 변환
+//import Button from "./Button";
+import styles from "./App.module.css";
+import { useState, useEffect } from "react";
+
+function Hello() {
+  function byeFn() {
+    console.log("bye :(");
+  }
+
+  function hiFn() {
+    console.log("hi :)");
+    return byeFn;
+  }
+  useEffect(hiFn, []);
+
+  return <h1>Hello</h1>;
+}
 
 function App() {
+  const [showing, setShowing] = useState(false);
+
+  const onClick = () => setShowing((prev) => !prev);
+
   return (
     <div>
-      <h1 className={styles.title}>Welcome back</h1>
-      <Button text={"Continue"} />
+      {showing ? <Hello /> : null}
+      <button onClick={onClick}>{showing ? "Hide" : "Show"}</button>
     </div>
-  ); //브라우저를 통해 html 확인하면 무작위의 class name 붙음, class name을 다 기억할 필요가 없어 편하다!
+  );
 }
 
 export default App;
